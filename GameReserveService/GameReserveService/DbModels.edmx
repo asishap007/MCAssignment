@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="game_reserveModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="animals">
+          <Key>
+            <PropertyRef Name="animalId" />
+          </Key>
+          <Property Name="animalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryId" Type="int" Nullable="false" />
+          <Property Name="gpsDeviceId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="colorIndication" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="gpstracking">
+          <Key>
+            <PropertyRef Name="trackingId" />
+          </Key>
+          <Property Name="trackingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="animalId" Type="int" Nullable="false" />
+          <Property Name="latitude" Type="double" Nullable="false" />
+          <Property Name="longitude" Type="double" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="animals_ibfk_1">
+          <End Role="category" Type="Self.category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="animals" Type="Self.animals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="animals">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="gpstracking_ibfk_1">
+          <End Role="animals" Type="Self.animals" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="gpstracking" Type="Self.gpstracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="animals">
+              <PropertyRef Name="animalId" />
+            </Principal>
+            <Dependent Role="gpstracking">
+              <PropertyRef Name="animalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="game_reserveModelStoreContainer">
+          <EntitySet Name="animals" EntityType="Self.animals" Schema="game_reserve" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="game_reserve" store:Type="Tables" />
+          <EntitySet Name="gpstracking" EntityType="Self.gpstracking" Schema="game_reserve" store:Type="Tables" />
+          <AssociationSet Name="animals_ibfk_1" Association="Self.animals_ibfk_1">
+            <End Role="category" EntitySet="category" />
+            <End Role="animals" EntitySet="animals" />
+          </AssociationSet>
+          <AssociationSet Name="gpstracking_ibfk_1" Association="Self.gpstracking_ibfk_1">
+            <End Role="animals" EntitySet="animals" />
+            <End Role="gpstracking" EntitySet="gpstracking" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="game_reserveModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="animal">
+          <Key>
+            <PropertyRef Name="animalId" />
+          </Key>
+          <Property Name="animalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryId" Type="Int32" Nullable="false" />
+          <Property Name="gpsDeviceId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="gpstrackings" Relationship="game_reserveModel.gpstracking_ibfk_1" FromRole="animal" ToRole="gpstracking" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="colorIndication" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="animals" Relationship="Self.animals_ibfk_1" FromRole="category" ToRole="animals" />
+        </EntityType>
+        <EntityType Name="gpstracking">
+          <Key>
+            <PropertyRef Name="trackingId" />
+          </Key>
+          <Property Name="trackingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" />
+          <Property Name="animalId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="animals_ibfk_1">
+          <End Role="category" Type="Self.category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="animals" Type="Self.animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="animals">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="game_reserveEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="animals" EntityType="Self.animal" />
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="gpstrackings" EntityType="Self.gpstracking" />
+          <AssociationSet Name="animals_ibfk_1" Association="Self.animals_ibfk_1">
+            <End Role="category" EntitySet="categories" />
+            <End Role="animals" EntitySet="animals" />
+          </AssociationSet>
+          <AssociationSet Name="gpstracking_ibfk_1" Association="game_reserveModel.gpstracking_ibfk_1">
+            <End Role="animal" EntitySet="animals" />
+            <End Role="gpstracking" EntitySet="gpstrackings" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="gpstracking_ibfk_1">
+          <End Type="game_reserveModel.animal" Role="animal" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="game_reserveModel.gpstracking" Role="gpstracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="animal">
+              <PropertyRef Name="animalId" />
+            </Principal>
+            <Dependent Role="gpstracking">
+              <PropertyRef Name="animalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="game_reserveModelStoreContainer" CdmEntityContainer="game_reserveEntities">
+          <EntitySetMapping Name="animals">
+            <EntityTypeMapping TypeName="game_reserveModel.animal">
+              <MappingFragment StoreEntitySet="animals">
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+                <ScalarProperty Name="animalId" ColumnName="animalId" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="gpsDeviceId" ColumnName="gpsDeviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="game_reserveModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="colorIndication" ColumnName="colorIndication" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="gpstrackings">
+            <EntityTypeMapping TypeName="game_reserveModel.gpstracking">
+              <MappingFragment StoreEntitySet="gpstracking">
+                <ScalarProperty Name="animalId" ColumnName="animalId" />
+                <ScalarProperty Name="trackingId" ColumnName="trackingId" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

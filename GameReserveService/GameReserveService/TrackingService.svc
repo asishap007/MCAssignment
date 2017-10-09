@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GameReserveService.TrackingService" CodeBehind="TrackingService.svc.cs" %>

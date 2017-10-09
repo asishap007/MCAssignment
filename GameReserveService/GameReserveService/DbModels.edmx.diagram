@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9d284426265c493682fb8b7c479c39f2" Name="Diagram1">
+        <EntityTypeShape EntityType="game_reserveModel.animal" Width="1.5" PointX="5.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="game_reserveModel.category" Width="1.5" PointX="1.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="game_reserveModel.gpstracking" Width="1.5" PointX="1.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="game_reserveModel.animals_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="game_reserveModel.gpstracking_ibfk_1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
